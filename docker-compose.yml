@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+
+  mysql-kc:
+    image: mysql:latest
+    ports:
+      - 3386:3306
+    restart: unless-stopped
+    environment:
+      # The user, password and database that Keycloak
+      # is going to create and use
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: keycloak
+      MYSQL_DATABASE: keycloak
+      # Self-Explanatory
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - keycloak-volume:/var/lib/mysql
+    networks:
+      - keycloak-network
+
+  keycloak-w:
+    image: quay.io/keycloak/keycloak:21.1.1
+    ports:
+      - 8080:8080
+    environment:
+      # User and password for the Administration Console
+      # KEYCLOAK_USER: admin
+      # KEYCLOAK_PASSWORD: admin
+      # DB_VENDOR: mysql
+      # DB_ADDR: mysql-kc
+      # DB_PORT: 3306
+      # # Same values as the mysql-kc service
+      # DB_USER: keycloak
+      # DB_PASSWORD: keycloak
+      # DB_DATABASE: keycloak
+        DB_VENDOR: MYSQL
+        DB_ADDR: mysql
+        DB_PORT: 3386
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_PASSWORD: keycloak
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: admin
+    depends_on:
+      - mysql-kc
+    networks:
+      - keycloak-network
+    command: start-dev
+
+networks:
+  keycloak-network:
+
+volumes:
+  keycloak-volume:
+
