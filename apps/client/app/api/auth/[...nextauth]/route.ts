@@ -1,9 +1,8 @@
-import { profile } from "console";
-import NextAuth, { NextAuthOptions } from "next-auth"
-import { JWT } from "next-auth/jwt"
-import { OAuthConfig } from "next-auth/providers"
-import KeycloakProvider, { KeycloakProfile } from "next-auth/providers/keycloak"
-import { signOut } from "next-auth/react";
+import NextAuth, { NextAuthOptions } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import { OAuthConfig } from "next-auth/providers";
+import KeycloakProvider, { KeycloakProfile } from "next-auth/providers/keycloak";
+import { redirect } from "next/navigation";
 /**
  * Takes a token, and returns a new token with updated
  * `accessToken` and `accessTokenExpires`. If an error occurs,
@@ -71,11 +70,10 @@ export const authOptions: NextAuthOptions = {
 
     callbacks: {
         async signIn({ user, account, profile }) {
-            // console.log(account)
             return true
         },
-        async jwt({ token, account, user }) {
-            
+        async jwt({ token, account }) {
+        
             if (account) {
                 token.id_token = account.id_token
                 token.access_token = account.access_token
@@ -84,17 +82,18 @@ export const authOptions: NextAuthOptions = {
                 token.refresh_expires_in = account.refresh_expires_in
                 token.provider = account.provider
             } else {
-                token = await refreshAccessToken({ token })
+                token = await refreshAccessToken({ token }) as any
             }
             return token
         },
         async session({session, token}) {
-            if (token) {
+            if(token.error == "RefreshAccessTokenError") {
+                redirect("/api/auth/signout")
+            } else {
               session.user = token.user as any
               session.access_token = token.access_token as string
               session.error = token.error as string
             }
-            console.log(session)
             return session
           },
     },

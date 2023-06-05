@@ -1,5 +1,6 @@
 'use client'
 
+import { Session } from "inspector";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -12,24 +13,18 @@ export default function SignIn({ children }: Props) {
   const { status, data } = useSession();
   
   useEffect(() => {
-    console.log(data)
     if (status === "unauthenticated") {
-      void signIn("keycloak", { redirect: false });
-      console.log("No JWT");
-      console.log(status);
-    } else if(status === "authenticated" && data.error) {
-      console.log("JWT error");
-      console.log(status);
-      console.log(data);
-      void signIn("keycloak", { redirect: false });
+      signIn("keycloak", { redirect: false });
+
+     } else if(status === "authenticated" && data.error) {
+      signIn("keycloak", { redirect: false });
     }
   }, [status]);
 
   if (status === "authenticated" && !data.error) {
-    console.log("JWT");
-    console.log(status);
-    console.log(data);
     return <main>{ children }</main>;
-  }  
+  } else if(!status.length) {
+    signIn("keycloak", {redirect: false })
+  }
   return <main>Checking authentication...</main>;
 }
