@@ -23,8 +23,6 @@ export default function SignIn({ children }: Props) {
 
   if (status === "authenticated" && !data.error) {
     return <main>{ children }</main>;
-  } else if(!status.length) {
-    signIn("keycloak", {redirect: false })
-  }
+  } 
   return <main>Checking authentication...</main>;
 }
