@@ -1,6 +1,4 @@
 'use client'
-
-import { Session } from "inspector";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
