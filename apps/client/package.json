@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec 'next build' server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "node server.js",
+    "start": "node start",
     "lint": "next lint"
   },
   "dependencies": {

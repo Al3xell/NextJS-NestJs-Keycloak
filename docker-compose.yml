@@ -21,7 +21,7 @@ services:
       - keycloak-network
 
   keycloak-w:
-    image: quay.io/keycloak/keycloak:21.1.1
+    image: quay.io/keycloak/keycloak:latest
     ports:
       - 8080:8080
     environment:
