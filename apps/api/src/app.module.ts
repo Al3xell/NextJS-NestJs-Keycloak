@@ -12,10 +12,10 @@ import { AppService } from './app.service';
       isGlobal: true,
     }),
     KeycloakConnectModule.register({
-      authServerUrl: 'http://localhost:8080',
-      realm: 'Local',
-      clientId: 'nextjs',
-      secret: 'JmNW3l05vQadAUKNKtzKkt9ZWV9HQIuq',
+      authServerUrl: process.env.KEYCLOAK_AUTH_URL,
+      realm: process.env.KEYCLOAK_REALM,
+      clientId: process.env.KEYCLOAK_CLIENT_ID,
+      secret: process.env.KEYCLOAK_CLIENT_SECRET,
       policyEnforcement: PolicyEnforcementMode.PERMISSIVE, // optional
       tokenValidation: TokenValidation.ONLINE, // optional
       // Secret key of the client taken from keycloak server

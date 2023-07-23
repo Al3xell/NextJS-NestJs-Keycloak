@@ -1,18 +1,18 @@
 'use client'
 
-import apiCall from "@/utils/apiCall"
+import apiCall from "@/app/lib/apiCall"
 
 export default function HelloButton() {
     return (
-        <button onClick={() => {
-        apiCall({
-            url: '/hello',
-            method: 'GET'
-        })
-        .then((res) => console.log(res))
+        <button type="button" onClick={() => {
+            apiCall({
+                url: '/hello',
+                method: 'GET'
+            })
+                .then((res) => console.log(res))
         }
         }>
-        hello
+            hello
         </button>
     )
 }

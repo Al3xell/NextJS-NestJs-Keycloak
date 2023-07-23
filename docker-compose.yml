@@ -20,6 +20,25 @@ services:
     networks:
       - keycloak-network
 
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql57
+    ports:
+      - 3390:3306
+    restart: unless-stopped
+    environment:
+      # The user, password and database that Keycloak
+      # is going to create and use
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_DATABASE: dev
+      # Self-Explanatory
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - keycloak-volume:/var/lib/mysqlDev
+    networks:
+      - keycloak-network
+
   keycloak-w:
     image: quay.io/keycloak/keycloak:latest
     ports:
