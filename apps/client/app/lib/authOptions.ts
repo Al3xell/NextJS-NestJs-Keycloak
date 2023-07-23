@@ -93,6 +93,7 @@ export const authOptions: NextAuthOptions = {
                     firstName: jwt.given_name as string,
                     lastName: jwt.family_name as string,
                     email: jwt.email as string,
+                    phone: jwt.phone as string,
                     roles: jwt.resource_access[process.env.KEYCLOAK_CLIENT_ID as string].roles as string[],
                 };
                 session.access_token = token.access_token as string;

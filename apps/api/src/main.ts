@@ -17,6 +17,7 @@ async function bootstrap() {
     origin: process.env.FRONT_URL,
   });
 
+  app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
     .setTitle('Forge')
     .setDescription('API de la forge')

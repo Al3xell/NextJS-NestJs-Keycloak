@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { Roles, Public } from 'nest-keycloak-connect';
 import { AppService } from './app.service';
 
-@Controller("/api")
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

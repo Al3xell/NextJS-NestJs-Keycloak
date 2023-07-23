@@ -9,6 +9,7 @@ declare module 'next-auth' {
       firstName: string,
       lastName: string,
       email: string,
+      phone?: string,
       roles: string[],
     },
     access_token?: string,
@@ -28,6 +29,7 @@ declare module 'next-auth' {
       },
     },
     email: string,
+    phone: string,
     error?: "RefreshAccessTokenError"
   }
 }

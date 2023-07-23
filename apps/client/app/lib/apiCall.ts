@@ -15,6 +15,7 @@ export default async function apiCall(data: Data) {
         data: data.data,
         headers: {
             Authorization: "Bearer " + session?.access_token,
+            userInfo: JSON.stringify(session?.user),
         },
     });
 } 
