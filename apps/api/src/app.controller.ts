@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, Res } from '@nestjs/common';
 import { Roles, Public } from 'nest-keycloak-connect';
 import { AppService } from './app.service';
+import { RequestUser } from './user/middleware/user.middleware';
 
 @Controller()
 export class AppController {
@@ -9,7 +10,8 @@ export class AppController {
   @Get("/hello")
   @Roles({ roles: ['admin'] })
   // @Public()
-  getHello(): string {
+  getHello(@Req() req: RequestUser): string {
+    console.log(req.userInfo)
     return this.appService.getHello();
   }
 }
