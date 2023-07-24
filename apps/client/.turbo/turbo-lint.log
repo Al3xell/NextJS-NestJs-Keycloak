@@ -1,0 +1,6 @@
+
+> client@0.1.0 lint
+> next lint
+
+- info Loaded env from D:\NextJS-NestJs-Keycloak\apps\client\.env
+✔ No ESLint warnings or errors

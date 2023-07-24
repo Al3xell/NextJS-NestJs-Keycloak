@@ -3,7 +3,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'fs';
 import { AppModule } from './app.module';
 
-
 const httpsOptions = {
   key: readFileSync(process.env.KEY_PATH, 'utf-8'),
   cert: readFileSync(process.env.CERT_PATH, 'utf-8'),
@@ -27,6 +26,5 @@ async function bootstrap() {
   SwaggerModule.setup('apiSwagger', app, document);
 
   await app.listen(process.env.PORT);
-
 }
 bootstrap();

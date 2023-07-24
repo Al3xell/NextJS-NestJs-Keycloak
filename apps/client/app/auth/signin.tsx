@@ -17,7 +17,7 @@ export default function SignIn({ children }: Props) {
      } else if(status === "authenticated" && data.error) {
       signIn("keycloak", { redirect: false });
     }
-  }, [status]);
+  }, [status, data]);
 
   if (status === "authenticated" && !data.error) {
     return <main>{ children }</main>;
