@@ -17,19 +17,22 @@ declare module 'next-auth' {
     error?: string,
   }
 
+  interface ResourceAccess {
+    [key: string]: {
+      roles: string[]
+    }
+  }
+
   interface JWT {
     access_token: string,
     expires_at: number,
     refresh_token: string,
     given_name: string,
     family_name: string,
-    resource_access: {
-      [key: string]: {
-        roles: string[]
-      },
-    },
+    resource_access: ResourceAccess,
     email: string,
     phone: string,
     error?: "RefreshAccessTokenError"
   }
+
 }

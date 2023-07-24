@@ -89,16 +89,25 @@ export const authOptions: NextAuthOptions = {
                 redirect(process.env.NEXTAUTH_URL + "/api/auth/signout");
             } else {
                 const jwt = jwtDecode(token.access_token as string) as JWT
+
+                let roles: string[] = [];
+                const clientID: string = process.env.KEYCLOAK_CLIENT_ID;
+                if(clientID && jwt.resource_access) {
+                    const resource = jwt.resource_access[clientID as keyof typeof jwt.resource_access] as { roles: string[]};
+                    if(resource && resource.roles) {
+                        roles = resource.roles;
+                    }
+                }
                 session.user = {
                     firstName: jwt.given_name as string,
                     lastName: jwt.family_name as string,
                     email: jwt.email as string,
                     phone: jwt.phone as string,
-                    roles: jwt.resource_access[process.env.KEYCLOAK_CLIENT_ID as string].roles as string[],
-                };
-                session.access_token = token.access_token as string;
-                session.refresh_token = token.refresh_token as string;
-                session.error = token.error as string;
+                    roles: roles,
+                }
+                session.access_token = token.access_token as string
+                session.refresh_token = token.refresh_token as string
+                session.error = token.error as string
             }
             return session
         },
