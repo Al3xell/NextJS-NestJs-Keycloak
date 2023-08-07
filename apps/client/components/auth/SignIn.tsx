@@ -20,7 +20,7 @@ export default function SignIn({ children }: Props) {
   }, [status, data]);
 
   if (status === "authenticated" && !data.error) {
-    return <main>{ children }</main>;
+    return <main className="flex-grow">{ children }</main>;
   } 
   return <main>Checking authentication...</main>;
 }

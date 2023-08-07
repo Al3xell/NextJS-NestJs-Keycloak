@@ -1,6 +1,6 @@
 'use client'
 
-import apiCall from "@/app/lib/apiCall"
+import apiCall from "@/lib/apiCall"
 
 export default function HelloButton() {
     return (

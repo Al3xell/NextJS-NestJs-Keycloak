@@ -1,5 +1,5 @@
 import HelloButton from '@/components/helloButton';
-import SignOut from '@/components/SignOut';
+import SignOut from '@/components/auth/SignOut';
 import Image from 'next/image'
 
 export default async function Home() {
