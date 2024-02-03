@@ -11,6 +11,8 @@ import {
 } from 'nest-keycloak-connect';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { DB } from 'core/databases/db.config';
 
 @Module({
   imports: [
@@ -26,6 +28,13 @@ import { AppService } from './app.service';
       policyEnforcement: PolicyEnforcementMode.PERMISSIVE, // optional
       tokenValidation: TokenValidation.ONLINE, // optional
       // Secret key of the client taken from keycloak server
+    }),
+    SequelizeModule.forRoot({
+      ...DB,
+      autoLoadModels: true,
+      synchronize: process.env.NODE_ENV != "production",
+      retryAttempts: 3,
+
     }),
   ],
   controllers: [AppController],
