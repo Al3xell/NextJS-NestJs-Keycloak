@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import {
@@ -11,9 +11,6 @@ import {
 } from 'nest-keycloak-connect';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { UserMiddleware } from './user/middleware/user.middleware';
 
 @Module({
   imports: [
@@ -30,18 +27,6 @@ import { UserMiddleware } from './user/middleware/user.middleware';
       tokenValidation: TokenValidation.ONLINE, // optional
       // Secret key of the client taken from keycloak server
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT as unknown as number,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [],
-      synchronize: process.env.NODE_ENV === 'production' ? false : true,
-      autoLoadEntities: true,
-    }),
-    UserModule,
   ],
   controllers: [AppController],
   providers: [
@@ -60,8 +45,4 @@ import { UserMiddleware } from './user/middleware/user.middleware';
     },
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}

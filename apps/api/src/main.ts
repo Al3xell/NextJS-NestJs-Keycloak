@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'fs';
 import { AppModule } from './app.module';
 
@@ -11,20 +10,14 @@ const httpsOptions = {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     httpsOptions,
+    logger: ['error', 'warn', 'fatal', 'log', 'debug'],
   });
   app.enableCors({
     origin: process.env.FRONT_URL,
   });
 
-  app.setGlobalPrefix('api');
-  const config = new DocumentBuilder()
-    .setTitle('Forge')
-    .setDescription('API de la forge')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('apiSwagger', app, document);
+  app.setGlobalPrefix('RESTAPI');
 
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT_API);
 }
 bootstrap();
