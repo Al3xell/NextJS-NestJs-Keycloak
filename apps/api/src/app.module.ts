@@ -9,16 +9,16 @@ import {
   RoleGuard,
   TokenValidation,
 } from 'nest-keycloak-connect';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { DB } from 'core/databases/db.config';
+import { Dialect } from 'sequelize';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+      expandVariables: true,
+      cache: true,  
     }),
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_AUTH_URL,
@@ -30,16 +30,21 @@ import { DB } from 'core/databases/db.config';
       // Secret key of the client taken from keycloak server
     }),
     SequelizeModule.forRoot({
-      ...DB,
+      dialect: process.env.DB_DIALECT as Dialect,
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      logging: false,
+      logQueryParameters: true,
       autoLoadModels: true,
       synchronize: process.env.NODE_ENV != "production",
       retryAttempts: 3,
 
     }),
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
@@ -54,4 +59,4 @@ import { DB } from 'core/databases/db.config';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
