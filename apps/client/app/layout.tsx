@@ -1,39 +1,30 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
-import { NextAuthProvider } from './Provider'
-import SignIn from './auth/signin'
+import { Poppins } from 'next/font/google'
+import Provider from './Provider'
+import SignIn from '../components/SignIn'
+import { ReactNode } from 'react'
+import { authOptions } from '@/lib/authOptions'
+import { getServerSession } from 'next-auth'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ subsets: ['latin'], weight: "400"})
 
 export const metadata = {
   title: {
-    default: '... | Forge',
-    template: '%s | Forge',
+    default: '... | App',
+    template: '%s | App',
   },
-  referrer: 'origin-when-cross-origin',
-  description: 'Application for ENIB students',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-
 }
 
-export default async function RootLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const session = await getServerSession(authOptions)
   return (
     <html lang="fr">
       <head />
-      <body className={inter.className}>
-        <NextAuthProvider>
-          <SignIn>
+      <body className={poppins.className}>
+        <Provider session={session}>
+            <SignIn />
             {children}
-          </SignIn>
-        </NextAuthProvider>
+        </Provider>
       </body>
     </html>
   )

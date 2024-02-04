@@ -1,4 +1,3 @@
-import HelloButton from '@/components/helloButton';
 import SignOut from '@/components/SignOut';
 import Image from 'next/image'
 
@@ -16,8 +15,6 @@ export default async function Home() {
       <p className="text-2xl font-bold text-center">
         Welcome to my new page
       </p>
-
-        <HelloButton />
         <SignOut />
     </main>
   )
